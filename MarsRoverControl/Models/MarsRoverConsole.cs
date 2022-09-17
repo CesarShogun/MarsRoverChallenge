@@ -1,6 +1,4 @@
-﻿using MarsRoverControl.MarsModels;
-
-namespace MarsRoverControl.Models
+﻿namespace MarsRoverControl.Models
 {
     public static class MarsRoverConsole
     {
@@ -85,7 +83,7 @@ namespace MarsRoverControl.Models
 
         private static void plateausCommand()
         {
-            var plateaus = Mars.GetPlateaus();
+            var plateaus = PlateauData.GetPlateaus();
             Console.WriteLine("The plateaus found in Mars are named: \r");
             foreach (var p in plateaus)
             {
@@ -97,34 +95,43 @@ namespace MarsRoverControl.Models
         {
             if (commands.Length > 1)
             {
-                int plateauIndex;
+                PlateauData? plateau = null;
                 try
                 {
-                    plateauIndex = Mars.PlateauIndexOf(MissionControl.GetRover(commands[1]).GetPlateau());
+                    //Since we don't know if the name provided is from a plateau or rover,
+                    //this tries to access the plateau through the mars rover. If the name specified is not a rover, it'll go to catch
+                    plateau = MissionControl.GetRover(commands[1]).GetPlateau();
                 }
                 catch
                 {
                     try
                     {
-                        plateauIndex = Mars.PlateauIndexOf(commands[1]);
+                        //This tries to access the plateau through the list of plateaus from PlateauData, assuming it's an existing plateau name
+                        var plateauList = PlateauData.GetPlateaus();
+                        foreach(var p in plateauList){
+                            if (p.NAME == commands[1])
+                            {
+                                plateau = p;
+                                break;
+                            }
+                                
+                        }
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        Console.WriteLine(ex.Message);
-                        return;
                     }
                 }
-                if (plateauIndex != -1)
+                if (plateau != null)
                 {
-                    Console.WriteLine($"The {Mars.PLATEAUS[plateauIndex].NAME} plateau has {Mars.PLATEAUS[plateauIndex].WIDTH} units to the East and {Mars.PLATEAUS[plateauIndex].HEIGHT} to the North from the specified zero point.");
+                    Console.WriteLine($"The {plateau.NAME} plateau has {plateau.WIDTH} units to the East and {plateau.HEIGHT} to the North from the specified zero point.");
                 }
                 else
                 {
-                    Console.WriteLine("ERROR: The plateau was not found.");
+                    Console.WriteLine($"ERROR: No plateau was found.");
                 }
             }
             else
-                Console.WriteLine($"No name was especified.");
+                Console.WriteLine($"No rover or plateau name was especified.");
         }
 
         private static void roversCommand()

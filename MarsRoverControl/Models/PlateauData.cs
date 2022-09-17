@@ -1,4 +1,6 @@
-﻿namespace MarsRoverControl.Models
+﻿using MarsRoverControl.MarsModels;
+
+namespace MarsRoverControl.Models
 {
     public class PlateauData
     {
@@ -25,6 +27,11 @@
             {
                 return LIMITS.Y;
             }
+        }
+
+        public static List<PlateauData> GetPlateaus()
+        {
+            return Mars.GetPlateaus();
         }
     }
 }

@@ -82,12 +82,12 @@ namespace MarsRoverControl.Models
             this.plateau = plateau;
         }
 
-        public string GetPlateau()
+        public PlateauData GetPlateau()
         {
             if (plateau == null)
                 throw new Exception("ERROR: The rover is not on Mars.");
 
-            return plateau.NAME;
+            return plateau;
         }
 
         //------ PRIVATE CLASS -----------
