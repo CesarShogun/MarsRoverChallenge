@@ -6,7 +6,7 @@ namespace MarsRoverControl.MarsModels
     {
         private List<RoverInMars> rovers = new();
         
-        public Plateau(string name, int width, int height, List<Coords> obstacles) : base(name, width, height, obstacles)
+        public Plateau(string name, Coords limits) : base(name, limits)
         {
         }
 
@@ -56,6 +56,9 @@ namespace MarsRoverControl.MarsModels
 
         public void AddRoverOn(MarsRover rover, Coords coords)
         {
+            if (coords.FurtherThan(LIMITS))
+                throw new Exception("COORD ERROR: The coords are out of bounds of the specified plateau dimensions.");
+            
             rover.SetPlateau(this);
             rovers.Add(new RoverInMars(rover, coords));
         }

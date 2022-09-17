@@ -11,7 +11,6 @@ namespace MarsRoverControl.Models
     public enum Event
     {
         NoEvent,
-        Obstacle,
         Edge
     }
 }

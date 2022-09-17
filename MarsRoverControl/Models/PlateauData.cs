@@ -1,21 +1,30 @@
-﻿using System;
-
-namespace MarsRoverControl.Models
+﻿namespace MarsRoverControl.Models
 {
     public class PlateauData
     {
         public readonly string NAME;
-        public readonly int WIDTH;
-        public readonly int HEIGHT;
-        public readonly List<Coords> OBSTACLES = new();
+        public readonly Coords LIMITS;
 
-
-        public PlateauData(string name, int width, int height, List<Coords> obstacles)
+        public PlateauData(string name, Coords limits)
         {
             NAME = name;
-            WIDTH = width;
-            HEIGHT = height;
-            OBSTACLES = obstacles;
+            LIMITS = limits;
+        }
+
+        public int WIDTH
+        {
+            get
+            {
+                return LIMITS.X;
+            }
+        }
+
+        public int HEIGHT
+        {
+            get
+            {
+                return LIMITS.Y;
+            }
         }
     }
 }

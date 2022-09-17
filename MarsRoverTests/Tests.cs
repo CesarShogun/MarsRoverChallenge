@@ -6,12 +6,12 @@ namespace MarsRoverTests
 {
     public class Tests
     {
-        private const string PLATEAU_A = "Endeavour";
+        private const string PLATEAU = "Endeavour";
 
         public void CreateRoverAndLand(string roverName)
         {
             MissionControl.CreateMarsRover(roverName);
-            MissionControl.GetRover(roverName).LandOnPlateau(PLATEAU_A, new Coords(3, 0));
+            MissionControl.GetRover(roverName).LandOnPlateau(PLATEAU, new Coords(3, 0));
         }
         
         [SetUp]
@@ -35,13 +35,16 @@ namespace MarsRoverTests
         }
 
         [Test]
-        public void Testing_Positive_Coords()
+        public void Testing_Correct_Coords()
         {
             string roverName = "Positive";
-            CreateRoverAndLand(roverName);
+            MissionControl.CreateMarsRover(roverName);
 
-            var ex = Assert.Throws<ArgumentException>(() => MissionControl.GetRover(roverName).LandOnPlateau(PLATEAU_A, new Coords(1, -1)));
+            var ex = Assert.Throws<ArgumentException>(() => MissionControl.GetRover(roverName).LandOnPlateau(PLATEAU, new Coords(1, -1)));
             Assert.That(ex.Message, Is.EqualTo("COORD ERROR: No coord can be lower than zero."));
+
+            var exx = Assert.Throws<Exception>(() => MissionControl.GetRover(roverName).LandOnPlateau(PLATEAU, new Coords(1, 21)));
+            Assert.That(exx.Message, Is.EqualTo("COORD ERROR: The coords are out of bounds of the specified plateau dimensions."));
         }
 
         [Test]
@@ -49,7 +52,7 @@ namespace MarsRoverTests
         {
             string roverName = "Launchtest";
             CreateRoverAndLand(roverName);
-            var ex = Assert.Throws<Exception>(() => MissionControl.GetRover(roverName).LandOnPlateau(PLATEAU_A, new Coords(1, 1)));
+            var ex = Assert.Throws<Exception>(() => MissionControl.GetRover(roverName).LandOnPlateau(PLATEAU, new Coords(1, 1)));
             Assert.That(ex.Message, Is.EqualTo($"ERROR: The {roverName} rover is already on Mars."));
         }
 
@@ -62,7 +65,7 @@ namespace MarsRoverTests
             var ex = Assert.Throws<Exception>(() => MissionControl.GetRover(roverName).MovementInstructions("LML"));
             Assert.That(ex.Message, Is.EqualTo("ERROR: The rover is not on Mars."));
 
-            MissionControl.GetRover(roverName).LandOnPlateau(PLATEAU_A, new Coords(1, 1));
+            MissionControl.GetRover(roverName).LandOnPlateau(PLATEAU, new Coords(1, 1));
 
             ex = Assert.Throws<ArgumentException>(() => MissionControl.GetRover(roverName).MovementInstructions("LMLX"));
             Assert.That(ex.Message, Is.EqualTo($"INSTRUCTION ERROR: The instructions for the movement of the rover can only be \'{MarsRover.LEFT_TURN}\', \'{MarsRover.RIGHT_TURN}\' and \'{MarsRover.MOVE}\'."));

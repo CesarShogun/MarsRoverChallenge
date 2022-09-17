@@ -5,17 +5,15 @@ namespace MarsRoverControl.MarsModels
     public static class Mars
     {
         public static readonly List<Plateau> PLATEAUS = new List<Plateau> { 
-            new Plateau("Endeavour", 5, 5, new List<Coords>()),
-            new Plateau("Gale", 7, 7, new List<Coords>() {
-                new Coords(0, 0), new Coords(0, 1), new Coords(1, 0), new Coords(3, 4) }),
-            new Plateau("Jezero", 9, 9, new List<Coords> {
-                new Coords(2, 3), new Coords(5, 4) })
+            new Plateau("Endeavour", new Coords(5, 5)),
+            new Plateau("Gale", new Coords(7, 5)),
+            new Plateau("Jezero", new Coords(4, 9))
         };
 
         public static List<PlateauData> GetPlateaus()
         {
             List<PlateauData> plateaus = new();
-            PLATEAUS.ForEach(p => plateaus.Add(new PlateauData(p.NAME, p.WIDTH, p.HEIGHT, p.OBSTACLES)));
+            PLATEAUS.ForEach(p => plateaus.Add(new PlateauData(p.NAME, p.LIMITS)));
 
             return plateaus;
         }

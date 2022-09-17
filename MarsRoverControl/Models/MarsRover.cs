@@ -1,7 +1,5 @@
 ﻿using MarsRoverControl.MarsModels;
-using System;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 namespace MarsRoverControl.Models
 {
@@ -90,12 +88,6 @@ namespace MarsRoverControl.Models
                 throw new Exception("ERROR: The rover is not on Mars.");
 
             return plateau.NAME;
-        }
-
-        public void SayHi()
-        {
-            if (plateau != null)
-                Console.WriteLine($"Hi, my name is {Name} and I am in Mars, in a place named {plateau.NAME}.");
         }
 
         //------ PRIVATE CLASS -----------

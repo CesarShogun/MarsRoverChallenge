@@ -13,5 +13,10 @@
             X = x;
             Y = y;
         }
+
+        public bool FurtherThan(Coords coord)
+        {
+            return X > coord.X || Y > coord.Y;
+        }
     }
 }

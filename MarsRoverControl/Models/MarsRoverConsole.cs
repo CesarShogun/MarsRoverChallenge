@@ -97,7 +97,7 @@ namespace MarsRoverControl.Models
         {
             if (commands.Length > 1)
             {
-                int plateauIndex = -1;
+                int plateauIndex;
                 try
                 {
                     plateauIndex = Mars.PlateauIndexOf(MissionControl.GetRover(commands[1]).GetPlateau());
@@ -267,8 +267,6 @@ namespace MarsRoverControl.Models
                     Console.WriteLine("RESULTS RECEIVED: The movement was carried out successfully. No unexpected events occurred.");
                 else if (marsEvent.Event == Event.Edge)
                     Console.WriteLine("RESULTS RECEIVED: DANGER, the rover was instructed to run into the edge of the specified area. The rover has cancelled further movment instructions.");
-                else
-                    ;//obstacles
             }
             else
             {
